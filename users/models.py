@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
 
+# Preparation of the data and settings about the Users Profiles.
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

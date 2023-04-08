@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 
+# Preparation of the data and settings about the information that the forms require.
+
+
 class Post(models.Model):
     title = models.CharField(max_length=50)
     content = models.TextField()
