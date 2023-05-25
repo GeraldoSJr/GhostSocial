@@ -20,8 +20,8 @@ def register(request):
         return render(request, 'users/register.html')
 
 
-def Login(request):
-    if request.POST == 'POST':
+def login(request):
+    if request.method == 'POST':
         username = request.POST["username"]
         password = request.POST["password"]
         if username and password:
