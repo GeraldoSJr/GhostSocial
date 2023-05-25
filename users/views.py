@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.models import User
-from django.contrib import auth
+from django.contrib import auth, messages
 
 
 def register(request):
@@ -15,6 +15,7 @@ def register(request):
             user = User.objects.create_user(username=username, email=email)
             user.set_password(password)
             user.save()
+            messages.success(request, 'Account created successfully!')
             return redirect('login')
     else:
         return render(request, 'users/register.html')
@@ -28,10 +29,13 @@ def login(request):
             user = auth.authenticate(username=username, password=password)
             if user:
                 auth.login(request, user)
+                messages.success(request, 'Welcome: ' + user.username)
                 return redirect('blog-home')
             else:
+                messages.error(request, 'Your username or password is wrong, try again or create an account')
                 return render(request, 'users/login.html')
         else:
+            messages.error(request, 'Make sure to fill all fields')
             return render(request, 'users/login.html')
     else:
         return render(request, 'users/login.html')

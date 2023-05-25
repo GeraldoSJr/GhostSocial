@@ -13,6 +13,7 @@
                     </div>
                     <form action="" method="post">
                         {% csrf_token %}
+                        {% include 'users/_messages.html' %}
                         <div class="form-group">
                             <input type="text" name="username" id="usernameField" class="form-control form-control-sm" placeholder="Username">
                         </div>
