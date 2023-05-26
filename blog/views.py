@@ -55,10 +55,11 @@ def create_post(request):
         content = request.POST['content']
         if not title:
             messages.error(request, 'Amount is required')
-        Post.objects.create(author=request.user, title=title, content=content)
-        messages.success(request, 'New expense added')
-
-        return redirect('blog-home')
+            return render(request, 'blog/post_form.html')
+        else:
+            Post.objects.create(author=request.user, title=title, content=content)
+            messages.success(request, 'New expense added')
+            return redirect('blog-home')
 
 # Set up the update posts page.
 
