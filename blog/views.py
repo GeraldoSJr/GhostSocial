@@ -58,7 +58,7 @@ def create_post(request):
             return render(request, 'blog/post_form.html')
         else:
             Post.objects.create(author=request.user, title=title, content=content)
-            messages.success(request, 'New expense added')
+            messages.success(request, 'New post added')
             return redirect('blog-home')
 
 # Set up the update posts page.
