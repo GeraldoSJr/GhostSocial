@@ -1,14 +1,19 @@
 {% extends "blog/base.html" %}
 {% block content %}
     <div class="content-section">
-        <form method = "POST">
+        <form action="{% url 'post-create' %}" method="post">
+            {% include 'users/_messages.html' %}
             {% csrf_token %}
-            <fieldset class = "form-group">
-                <legend class = "border-bottom mb-4">Blog Post</legend>
-                {{ form.as_p }}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Post</button>
+            <div class="card-body">
+                <div class="form-group">
+                    <label FOR="">Titulo</label>
+                    <input type="text" class="form-control form-control-sm" value="{{ values.title }}" name="title">
+                </div>
+                <div class="form-group">
+                    <label for="">Content</label>
+                    <textarea class="form-control" style="height: 200px" name="content">{{ values.content }}</textarea>
+                </div>
+                <input type="submit" value="Submit" class="btn btn-primary btn-primary-sm">
             </div>
         </form>
     </div>

@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.contrib.auth.models import  User
-from . models import Post
+from django.contrib import messages
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import ListView, DetailView, UpdateView, DeleteView
+from django.contrib.auth.models import User
+from .models import Post
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 # Send and administrates the user experience with the Blog posts.
@@ -45,13 +46,19 @@ class PostDetailView(DetailView):
 # Set up the creation of Posts page.
 
 
-class PostCreateView(LoginRequiredMixin, CreateView):
-    model = Post
-    fields = ('title', 'content')
+def create_post(request):
+    if request.method == 'GET':
+        return render(request, 'blog/post_form.html')
 
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+    if request.method == 'POST':
+        title = request.POST['title']
+        content = request.POST['content']
+        if not title:
+            messages.error(request, 'Amount is required')
+        Post.objects.create(author=request.user, title=title, content=content)
+        messages.success(request, 'New expense added')
+
+        return redirect('blog-home')
 
 # Set up the update posts page.
 
