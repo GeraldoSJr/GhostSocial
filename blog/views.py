@@ -81,6 +81,20 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 # Set up the deletion of posts page.
 
 
+def create_comentary(request):
+    if request.method == 'get':
+        return render(request, 'blog/post_detail.html')
+    if request.method == 'POST':
+        content = request.POST['content']
+        if not content:
+            messages.error(request, 'Content is required')
+            return render(request, 'blog/post_detail.html')
+        else:
+            Post.objects.create(author=request.user, content=content)
+            messages.success(request, 'New comentary added')
+            return redirect('post-detail')
+
+
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     success_url = "/"
